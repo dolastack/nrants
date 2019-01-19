@@ -4,7 +4,7 @@ from celery.decorators import periodic_task
 from django.utils import timezone
 import feedparser
 from .models import  Article, Feed
-
+from .admin import save_article
 
 @periodic_task(run_every=(crontab(minute="*/7")))
 def feed_update():
