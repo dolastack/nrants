@@ -1,0 +1,11 @@
+{% extends "home.html" %}
+
+{% block articles %}
+{% for article in object_list  %}
+    <p>
+      {{ article.title }}
+
+    </p>
+{% endfor %}
+ 
+{% endblock articles %}
