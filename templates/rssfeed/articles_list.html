@@ -2,11 +2,11 @@
 
 {% block articles %}
 {% for article in object_list  %}
-    <p>
-      {{ article.title }}
-      {{ article.description }}
+    
+      <h5>{{ article.title }}</h5>
+      <p>{{ article.description }}</p>
       <div type=button></div>
-    </p>
+    
 {% endfor %}
  
 {% endblock articles %}
