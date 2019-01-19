@@ -7,7 +7,7 @@
 __pycache__/
 */__pycache__/
 local_settings.py
-
+*settings
 .env
 db.sqlite3
 
