@@ -13,7 +13,7 @@ redis = redis.StrictRedis(host='localhost', port=6379, db=9)
 
 cfg = {
    "page_id"      : "216809822168608",  # Step 1
-   "access_token" : "EAAL3F6fnlNkBAFSHfhu9FEhZAuVtOSzvQXy2UiWw3Vnx16xFhrIOCyOLnFaB1wa31dND46mCi1ML8e8tObTkmaJMrZBpg4H4EuXZBHWynqDoBRSv51UxfWIaaFiFdTiYZCqpYwR1wM0ZBaJSjaLWlKjtoWScEAtHBiFTNJlFu54B8GHZBEwn8XNZAF5x5DSBoYZD"
+   "access_token" : "EAAL3F6fnlNkBAGlcMqnChayFAfYa5cxtMxDDqAv8BtmDOSaTmla6D7e6Hj1WdPeRph6zF9U0LkRMENojJ3IYiqijzNQHC5ZBG6WBOpbdPbpXgN0jjQKghTJnOQEaXfrZBxvJwjuh7atrMnZBsnp18Csbv7nq2IPknGwBZAFTpqZC3okPT6Pw4DdeIMyAI9N0ZD"
 }
 
 
