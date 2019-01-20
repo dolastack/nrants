@@ -4,6 +4,7 @@ from celery.decorators import periodic_task
 from django.utils import timezone
 import feedparser
 import facebook
+import redis
 from .models import  Article, Feed
 from .admin import save_article
 
