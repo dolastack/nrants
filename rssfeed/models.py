@@ -22,6 +22,7 @@ class Feed(models.Model):
 
 class Article(models.Model):
     feed = models.ForeignKey(Feed,  on_delete=models.CASCADE)
+    url = models.URLField()
     title = models.CharField( max_length=300)
     publication_date = models.DateTimeField(default=timezone.now)
     description = models.TextField()
