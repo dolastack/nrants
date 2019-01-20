@@ -27,7 +27,7 @@ def get_api(cfg):
     return graph
 
 graph_api = get_api(cfg)
-@periodic_task(run_every=(crontab(minute="*/7")))
+@periodic_task(run_every=(crontab(minute="*/3")))
 def post_to_facebook():
     """Post new articles to facebook"""
     try:
@@ -36,7 +36,7 @@ def post_to_facebook():
         print("There is a problem ", str(er))
 
 
-@periodic_task(run_every=(crontab(minute="*/7")))
+@periodic_task(run_every=(crontab(minute="*/3")))
 def feed_update():
     """background task to get update from feed """
     FEED_LIST = Feed.objects.all()
