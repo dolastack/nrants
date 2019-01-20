@@ -31,7 +31,7 @@ class Article(models.Model):
 
     def setID(self):
         idm = hashlib.sha1()
-        temp = self.title + self.publication_date + self.url
+        temp = self.title + str(self.publication_date) + self.url
         idm.update(temp.encode())
         self.article_id = idm.hexdigest()
 
