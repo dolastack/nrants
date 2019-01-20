@@ -29,7 +29,7 @@ class Article(models.Model):
     class Meta:
         verbose_name = ("Article")
         verbose_name_plural = ("Articles")
-        ordering = ("publication_date",)
+        ordering = ("-publication_date",)
 
     def __str__(self):
         return self.title
