@@ -31,7 +31,7 @@ graph_api = get_api(cfg)
 def post_to_facebook():
     """Post new articles to facebook"""
     try:
-        status = graph_api.put_object("me", "hello")
+        status = graph_api.put_object("me", "feed", message="hello")
     except facebook.GraphAPIError as er:
         print("There is a problem ", str(er))
 
