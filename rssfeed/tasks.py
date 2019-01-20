@@ -8,11 +8,13 @@ from .models import  Article, Feed
 from .admin import save_article
 
 
+redis = redis.StrictRedis(host='localhost', port=6379, db=9)
 
 cfg = {
    "page_id"      : "216809822168608",  # Step 1
    "access_token" : "EAAL3F6fnlNkBANuexR7lLFOcrTRalacmZAZBBH9wafWOAwJJZAW7WgustAJFavFZAUgRD6emcGNhsZBIJIz8g5xeZA6FCQh7HUCMIw7txPjgXGgV4uP7du41DnlRzYpIcst52sPOY1CYYLz5XBJsQmKkdz4dt7cMOsBy3OiZAXdo7hErgKKnz4jOYV2dkGplZCQZD"
 }
+
 
 def get_api(cfg):
     graph = facebook.GraphAPI(cfg['access_token'])
@@ -30,6 +32,7 @@ graph_api = get_api(cfg)
 #@periodic_task(run_every=(crontab(minute="*/15")))
 def post_to_facebook():
     """Post new articles to facebook"""
+    #attachment = {"name":article.title ,  "link" :article.url , "description": article.description}
     try:
         status = graph_api.put_object("me", "feed", message="hello")
     except facebook.GraphAPIError as er:
