@@ -12,6 +12,7 @@ def save_article(feedData, feed):
         article.description = entry.description
         article.publication_date = datetime.datetime(*(entry.published_parsed[0:6]))
         article.feed = feed
+        article.setID()
         article.save()
 
 # Register your models here.

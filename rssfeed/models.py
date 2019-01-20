@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+import hashlib
 
 # Create your models here.
 
@@ -26,6 +27,13 @@ class Article(models.Model):
     title = models.CharField( max_length=300)
     publication_date = models.DateTimeField(default=timezone.now)
     description = models.TextField()
+    article_id = models.CharField(max_length=200, primary_key=True)
+
+    def setID(self):
+        idm = hashlib.sha1()
+        temp = self.title + self.publication_date + self.url
+        idm.update(temp.encode())
+        self.article_id = idm.hexdigest()
 
     class Meta:
         verbose_name = ("Article")
