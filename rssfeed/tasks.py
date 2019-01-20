@@ -27,7 +27,7 @@ def get_api(cfg):
     return graph
 
 graph_api = get_api(cfg)
-@periodic_task(run_every=(crontab(minute="*/15")))
+#@periodic_task(run_every=(crontab(minute="*/15")))
 def post_to_facebook():
     """Post new articles to facebook"""
     try:
