@@ -42,14 +42,15 @@ def get_api(cfg):
 graph_api = get_api(cfg)
 @periodic_task(run_every=(crontab(minute="*/15")))
 def post_to_facebook():
-    if redis.llen('articles') > 0:
-        article = Article.objects.get(article_id = redis.lpop('articles').decode())
+    for i in range(2):
+        if redis.llen('articles') > 0:
+            article = Article.objects.get(article_id = redis.lpop('articles').decode())
 
-        """Post new articles to facebook"""
-        try:
-           status = graph_api.put_object("me", "feed", message=article.title, link=article.url)
-        except facebook.GraphAPIError as er:
-            print("There is a problem ", str(er))
+            """Post new articles to facebook"""
+            try:
+                status = graph_api.put_object("me", "feed", message=article.title, link=article.url)
+            except facebook.GraphAPIError as er:
+                print("There is a problem ", str(er))
 
 
 @periodic_task(run_every=(crontab(minute="*/7")))
