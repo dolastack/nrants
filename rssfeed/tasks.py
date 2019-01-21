@@ -2,6 +2,7 @@ from celery import task
 from celery.task.schedules import crontab
 from celery.decorators import periodic_task
 from django.utils import timezone
+from django.db.models.signals import post_save
 import feedparser
 import facebook
 import redis
@@ -13,9 +14,19 @@ redis = redis.StrictRedis(host='localhost', port=6379, db=9)
 
 cfg = {
    "page_id"      : "216809822168608",  # Step 1
-   "access_token" : "EAAL3F6fnlNkBAGlcMqnChayFAfYa5cxtMxDDqAv8BtmDOSaTmla6D7e6Hj1WdPeRph6zF9U0LkRMENojJ3IYiqijzNQHC5ZBG6WBOpbdPbpXgN0jjQKghTJnOQEaXfrZBxvJwjuh7atrMnZBsnp18Csbv7nq2IPknGwBZAFTpqZC3okPT6Pw4DdeIMyAI9N0ZD"
+   "access_token" : "EAAL3F6fnlNkBAASwO3R8MbqlfKdSJZCCnZBN3Qfj6JtKGoowiDyM3jfr4QuUY76wa1TvNsW6jkZAfqlgQ8JSo09GkUZBllYI0TE76bG21hoDpZB929ZBPdyRzmwvoAfh0KzdxcZCZBk1ZADQK4fqocIVxSKkAijWWTTkZD"
 }
 
+#periodically get new articles
+def get_latest_article(sender,  **kwargs):
+    #videos = YoutubeVideo.objects.videos_after(minutes=12)
+    if kwargs['created']:
+        article = kwargs['instance']
+
+        redis.lpush('articles', article.article_id )
+
+#post save signal connect
+post_save.connect(get_latest_article, sender=Article)
 
 def get_api(cfg):
     graph = facebook.GraphAPI(cfg['access_token'])
@@ -32,12 +43,13 @@ def get_api(cfg):
 graph_api = get_api(cfg)
 @periodic_task(run_every=(crontab(minute="*/15")))
 def post_to_facebook():
-    """Post new articles to facebook"""
-    #attachment = {"name":article.title ,  "link" :article.url , "description": article.description}
-    try:
-        status = graph_api.put_object("me", "feed", message="hello")
-    except facebook.GraphAPIError as er:
-        print("There is a problem ", str(er))
+    if redis.llen('articles') > 0:
+        article = Article.objects.get(article_id = redis.lpop('articles'))
+        """Post new articles to facebook"""
+        try:
+           status = graph_api.put_object("me", "feed", message=article.title, link=article.url)
+        except facebook.GraphAPIError as er:
+            print("There is a problem ", str(er))
 
 
 @periodic_task(run_every=(crontab(minute="*/7")))
