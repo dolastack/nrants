@@ -22,7 +22,6 @@ def get_latest_article(sender,  **kwargs):
     #videos = YoutubeVideo.objects.videos_after(minutes=12)
     if kwargs['created']:
         article = kwargs['instance']
-
         redis.lpush('articles', article.article_id )
 
 #post save signal connect
@@ -44,7 +43,8 @@ graph_api = get_api(cfg)
 @periodic_task(run_every=(crontab(minute="*/15")))
 def post_to_facebook():
     if redis.llen('articles') > 0:
-        article = Article.objects.get(article_id = redis.lpop('articles'))
+        article = Article.objects.get(article_id = redis.lpop('articles').decode())
+
         """Post new articles to facebook"""
         try:
            status = graph_api.put_object("me", "feed", message=article.title, link=article.url)
