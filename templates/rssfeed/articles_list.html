@@ -1,6 +1,10 @@
 {% extends "home.html" %}
 
 {% block articles %}
+<div class="card">
+  <div class="card-header text-center">
+    In the News
+  </div>
 {% for article in object_list  %}
     
       <h5>{{ article.title }}</h5>
@@ -10,5 +14,5 @@
       </p>
     
 {% endfor %}
- 
+</div>
 {% endblock articles %}
